@@ -22,14 +22,14 @@ class UserService:
         Currently provisions a default datastore for the user if they don't
         already have one.
         """
-        user_id: Optional[str] = payload.get("id")
+        print(f"[user_verified] Received payload: {payload}")
+        data = payload.get("data") or {}
+        user_id: Optional[str] = data.get("id")
         if not user_id:
-            self.logger.warning(
-                "[user_verified] Missing user id in payload: %s", payload
-            )
+            self.logger.warning("[user_verified] Missing user id in data: %s", data)
             return
 
-        username = payload.get("username") or payload.get("email") or user_id
+        username = data.get("username") or data.get("email") or user_id
         datastore_name = f"{username}'s Workspace"
 
         try:
