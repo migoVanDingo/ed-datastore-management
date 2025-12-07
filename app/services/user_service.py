@@ -23,8 +23,8 @@ class UserService:
         already have one.
         """
         print(f"[user_verified] Received payload: {payload}")
-        data = payload.get("data") or {}
-        user_id: Optional[str] = data.get("id")
+        data = payload.get("data") or payload or {}
+        user_id: Optional[str] = data.get("id") or data.get("user_id")
         if not user_id:
             self.logger.warning("[user_verified] Missing user id in data: %s", data)
             return
