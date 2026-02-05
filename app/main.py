@@ -7,6 +7,7 @@ from app.api.controller.health_check import router as health_router
 from app.listeners.user_changes_subscriber import start_user_changes_subscriber
 from platform_common.logging.logging import get_logger
 from platform_common.middleware.request_id_middleware import RequestIDMiddleware
+from platform_common.middleware.auth_middleware import AuthMiddleware
 from platform_common.exception_handling.handlers import add_exception_handlers
 
 logger = get_logger("datastore_lifespan")
@@ -30,6 +31,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Core Service", lifespan=lifespan)
 app.add_middleware(RequestIDMiddleware)
+app.add_middleware(AuthMiddleware)
 add_exception_handlers(app)
 
 # REST endpoints
